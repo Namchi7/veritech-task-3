@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <title>TO-DO App | Aman Kumar</title>
+  </head>
+  <body>
+    <header class="header">
+      <div class="sub-header">
+        <h1 class="logo">TO-DO App</h1>
+
+        <button class="create-todo-button" onclick="openCreateTodoModal(event)">
+          Create TO-DO
+        </button>
+      </div>
+    </header>
+
+    <main class="all-todo-div">
+      <div class="todo-list-div">
+        <h3 class="todo-list-heading">Pending TO-DOs</h3>
+
+        <hr class="separator" />
+
+        <div class="todo-list" id="pending-todo-list">
+          <div class="todo">
+            <p class="todo-task">Task 1</p>
+
+            <hr class="separator" />
+
+            <div class="todo-action">
+              <div class="priority-div" id="priority-div">
+                <img
+                  src="/assets/left.png"
+                  alt="<"
+                  class="priority-change-icon"
+                  id="left-icon"
+                  onclick="priorityDec('008')"
+                />
+                <p class="priority">Low</p>
+                <img
+                  src="/assets/right.png"
+                  alt=">"
+                  class="priority-change-icon"
+                  id="right-icon"
+                  onclick="priorityInc('008')"
+                />
+              </div>
+              <div class="edit-delete">
+                <button
+                  class="action-button edit-button"
+                  onclick="editTodo('008')"
+                >
+                  Edit
+                </button>
+                <button class="action-button delete-button">Delete</button>
+                <button class="action-button complete-button">Complete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="todo-list-div">
+        <h3 class="todo-list-heading">Completed TO-DOs</h3>
+
+        <hr class="separator" />
+
+        <div class="todo-list" id="complete-todo-list">
+          <div class="todo">
+            <p class="todo-task">Task 1</p>
+
+            <hr class="separator" />
+
+            <div class="todo-action">
+              <div class="priority-div" id="priority-div">
+                <img
+                  src="/assets/left.png"
+                  alt="<"
+                  class="priority-change-icon"
+                  id="left-icon"
+                  onclick="priorityDec('007')"
+                />
+                <p>Low</p>
+                <img
+                  src="/assets/right.png"
+                  alt=">"
+                  class="priority-change-icon"
+                  id="right-icon"
+                  onclick="priorityInc('007')"
+                />
+              </div>
+              <div class="edit-delete">
+                <button class="action-button edit-button" onclick="editTodo(1)">
+                  Edit
+                </button>
+                <button class="action-button delete-button">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div style="display: none" class="create-todo-modal" id="create-todo-modal">
+      <div class="todo-details">
+        <h2 class="create-todo-heading">Create TO-DO</h2>
+
+        <hr class="separator" />
+
+        <form class="todo-details-form">
+          <div class="input-group">
+            <label for="task" class="label">Task:</label>
+            <input type="text" name="task" id="task" class="task-input" />
+          </div>
+
+          <fieldset class="fieldset">
+            <legend class="legend">Priority</legend>
+
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="low"
+                name="priority"
+                id="priority-low"
+                class="radio-input"
+                checked
+              />
+              <label for="priority-low" class="radio-label">Low</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="mid"
+                name="priority"
+                id="priority-mid"
+                class="radio-input"
+              />
+              <label for="priority-mid" class="radio-label">Mid</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="high"
+                name="priority"
+                id="priority-high"
+                class="radio-input"
+              />
+              <label for="priority-high" class="radio-label">High</label>
+            </div>
+          </fieldset>
+
+          <div class="todo-form-action">
+            <input
+              type="submit"
+              value="Save"
+              class="todo-from-save todo-form-button"
+              onclick="createTodo(event)"
+            />
+
+            <button
+              class="todo-form-cancel todo-form-button"
+              onclick="closeCreateTodoModal(event)"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-dark-bg"></div>
+    </div>
+
+    <div style="display: none" class="create-todo-modal" id="edit-todo-modal">
+      <div class="todo-details">
+        <h2 class="create-todo-heading">Edit TO-DO</h2>
+
+        <hr class="separator" />
+
+        <form class="todo-details-form">
+          <div class="input-group">
+            <label for="edit-task" class="label">Task:</label>
+            <input
+              type="text"
+              name="edit-task"
+              id="edit-task"
+              class="task-input"
+            />
+          </div>
+
+          <input type="hidden" value="" id="edit-task-id" />
+          <input type="hidden" value="" id="edit-task-status" />
+
+          <fieldset class="fieldset">
+            <legend class="legend">Priority</legend>
+
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="low"
+                name="edit-priority"
+                id="edit-priority-low"
+                class="radio-input"
+              />
+              <label for="edit-priority-low" class="radio-label">Low</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="mid"
+                name="edit-priority"
+                id="edit-priority-mid"
+                class="radio-input"
+              />
+              <label for="edit-priority-mid" class="radio-label">Mid</label>
+            </div>
+            <div class="radio-group">
+              <input
+                type="radio"
+                value="high"
+                name="edit-priority"
+                id="edit-priority-high"
+                class="radio-input"
+              />
+              <label for="edit-priority-high" class="radio-label">High</label>
+            </div>
+          </fieldset>
+
+          <div class="todo-form-action">
+            <input
+              type="submit"
+              value="Save"
+              class="todo-from-save todo-form-button"
+              onclick="saveEditedTodo(event)"
+            />
+
+            <button
+              class="todo-form-cancel todo-form-button"
+              onclick="closeEditTodoModal(event)"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-dark-bg"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+  </body>
+</html>
